@@ -69,7 +69,15 @@ class ValueIteration(AbstractSolver):
             # Do a one-step lookahead to find the best action #
             #           YOUR IMPLEMENTATION HERE              #
             ###################################################
-            raise NotImplementedError
+            # raise NotImplementedError
+            values = np.zeros(self.env.nA)
+            
+            for action in range(self.env.nA):
+                for probability, next_state, reward, _ in self.env.P[each_state][action]:
+                    values[action] += probability * (reward + self.options.gamma * self.V[next_state])
+
+            best_action_value = np.max(values)
+            self.V[each_state] = best_action_value
 
         # Dont worry about this part
         self.statistics[Statistics.Rewards.value] = np.sum(self.V)
@@ -104,7 +112,15 @@ class ValueIteration(AbstractSolver):
             ################################
             #   YOUR IMPLEMENTATION HERE   #
             ################################
-            raise NotImplementedError
+            # raise NotImplementedError
+            values = np.zeros(self.env.nA)
+
+            for action in range(self.env.nA):
+                for prob, next_state, reward, _ in self.env.P[state][action]:
+                    values[action] += prob * (reward + self.options.gamma * self.V[next_state])
+
+            best_action = max(range(len(values)), key=values.__getitem__)
+            return best_action
 
         return policy_fn
 
