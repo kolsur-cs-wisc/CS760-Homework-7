@@ -52,6 +52,8 @@ class QLearning(AbstractSolver):
         ################################
         for i in range(self.options.steps):
             action = self.epsilon_greedy_action(state)
+            # greedy_action = self.create_greedy_policy()
+            # action = greedy_action(state)
             next_state, reward, done, _ = self.step(action)
 
             self.Q[state][action] += self.options.alpha * (reward + (self.options.gamma * np.max(self.Q[next_state])) 
@@ -61,6 +63,7 @@ class QLearning(AbstractSolver):
                 state = next_state
             else:
                 break
+        print(f'FINAL : {self.Q}')
 
 
     def __str__(self):
@@ -81,6 +84,9 @@ class QLearning(AbstractSolver):
 
         def policy_fn(state):
             best_action = np.argmax(self.Q[state])
+            if(self.env.name == 'CustomMDP'):
+                if self.Q[state][0] == self.Q[state][1]:
+                    best_action = 0
             return best_action
 
         return policy_fn
@@ -101,13 +107,16 @@ class QLearning(AbstractSolver):
         ################################
         #   YOUR IMPLEMENTATION HERE   #
         ################################
-        max_action = np.argmax(self.Q[state])
 
-        action_probs = np.repeat(self.options.epsilon / (self.env.action_space.n - 1), self.env.action_space.n)
-        action_probs[max_action] = 1 - self.options.epsilon
+        ep_probs = [self.options.epsilon, 1 - self.options.epsilon]
+        choice = np.random.choice(2, p = ep_probs)
 
-        action = np.random.choice(self.env.action_space.n, p = action_probs)
-        return action
+        if choice == 1:
+            max_action = np.argmax(self.Q[state])
+            return max_action
+        else:
+            action = np.random.choice(self.env.action_space.n)
+            return action
 
 
 class Estimator:
