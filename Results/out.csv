@@ -14112,3 +14112,7 @@ CliffWalking,Q-Learning,97,-14.0,14
 CliffWalking,Q-Learning,98,-15.0,15
 CliffWalking,Q-Learning,99,-17.0,17
 CliffWalking,Q-Learning,100,-15.0,15
+
+CustomMDP,Q-Learning,1,157,200
+
+CustomMDP,Q-Learning,1,163,200

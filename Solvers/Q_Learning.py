@@ -52,7 +52,7 @@ class QLearning(AbstractSolver):
         ################################
         for i in range(self.options.steps):
             action = self.epsilon_greedy_action(state)
-            # greedy_action = self.create_greedy_policy()
+            # greedy_action = self.create_greedy_policy() # Section 4 Part 1
             # action = greedy_action(state)
             next_state, reward, done, _ = self.step(action)
 
