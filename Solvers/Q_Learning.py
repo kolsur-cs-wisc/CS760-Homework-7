@@ -50,6 +50,17 @@ class QLearning(AbstractSolver):
         ################################
         #   YOUR IMPLEMENTATION HERE   #
         ################################
+        for i in range(self.options.steps):
+            action = self.epsilon_greedy_action(state)
+            next_state, reward, done, _ = self.step(action)
+
+            self.Q[state][action] += self.options.alpha * (reward + (self.options.gamma * np.max(self.Q[next_state])) 
+                                                           - self.Q[state][action])
+            
+            if not done:
+                state = next_state
+            else:
+                break
 
 
     def __str__(self):
@@ -90,7 +101,13 @@ class QLearning(AbstractSolver):
         ################################
         #   YOUR IMPLEMENTATION HERE   #
         ################################
-        return action_probs
+        max_action = np.argmax(self.Q[state])
+
+        action_probs = np.repeat(self.options.epsilon / (self.env.action_space.n - 1), self.env.action_space.n)
+        action_probs[max_action] = 1 - self.options.epsilon
+
+        action = np.random.choice(self.env.action_space.n, p = action_probs)
+        return action
 
 
 class Estimator:
