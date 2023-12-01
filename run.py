@@ -22,6 +22,7 @@ from lib.envs.gridworld import GridworldEnv
 from lib.envs.blackjack import BlackjackEnv
 from lib.envs.cliff_walking import CliffWalkingEnv
 from lib.envs.windy_gridworld import WindyGridworldEnv
+from lib.envs.custom_mdp import CustomMDP
 
 
 def build_parser():
@@ -83,6 +84,8 @@ def getEnv(domain):
         return CliffWalkingEnv()
     elif domain == "WindyGridworld":
         return WindyGridworldEnv()
+    elif domain == "CustomMDP":
+        return CustomMDP()
     else:
         try:
             return gym.make(domain)
