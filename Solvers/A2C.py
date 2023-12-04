@@ -149,8 +149,8 @@ class A2C(AbstractSolver):
         critic_loss = torch.square(advantages)
         loss = policy_loss.mean() + critic_loss.mean()
 
-        loss.backward()
         self.optimizer.zero_grad()
+        loss.backward()
         self.optimizer.step()
 
     def __str__(self):
