@@ -28009,3 +28009,9 @@ CliffWalking,Q-Learning,97,-102.0,3
 CliffWalking,Q-Learning,98,-17.0,17
 CliffWalking,Q-Learning,99,-15.0,15
 CliffWalking,Q-Learning,100,-13.0,13
+
+CustomMDP,Q-Learning,1,146,200
+
+CustomMDP,Q-Learning,1,139,200
+
+CustomMDP,Q-Learning,1,143,200
