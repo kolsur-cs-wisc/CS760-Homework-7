@@ -121,7 +121,7 @@ class A2C(AbstractSolver):
         returns = np.zeros_like(rewards)
         # TODO: Compute bootstrapped returns for each state-action in states
         # and actions
-        next_value = torch.FloatTensor([0]) if done else self.actor_critic.value(torch.tensor(next_state, dtype=torch.float32))
+        next_value = 0 if done else self.actor_critic.value(torch.tensor(np.array([next_state]), dtype=torch.float32))
 
         for t in reversed(range(len(returns))):
             returns[t] = rewards[t] + self.options.gamma * next_value
@@ -132,7 +132,7 @@ class A2C(AbstractSolver):
 
         # TODO: Compute advantages for each state-action pair in states and
         # actions.
-        advantages = returns - values[-1, 0]
+        advantages = returns - values.detach()
 
         log_probs = torch.sum(
             self.actor_critic.log_probs(states_tensor) * actions_one_hot,
@@ -146,7 +146,7 @@ class A2C(AbstractSolver):
         # TODO: compute these losses.
         # Useful functions: torch.square for critic loss.
         policy_loss = -log_probs * advantages
-        critic_loss = torch.square(advantages)
+        critic_loss = torch.square(returns - values)
         loss = policy_loss.mean() + critic_loss.mean()
 
         self.optimizer.zero_grad()
